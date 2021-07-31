@@ -8,22 +8,39 @@ $(document).ready(function () {
 
 function darkModeToggle() {
     $('.dark-mode-toggle').click(function () {
-        $('.card').toggleClass('card-dark');
+        // body
         $('body').toggleClass('light-mode dark-mode');
+
+        // bottom nav
         $('.bottom-nav-title').toggleClass('text-light');
         $('.top-btn i').toggleClass('bottom-nav-icon-top bottom-nav-icon-top-dark');
         $('.bottom-nav-content').toggleClass('bottom-nav-light bottom-nav-dark');
-        $('.bottom-dark-mode-container svg').toggleClass('icon-hide')
-        $('.nav-content').toggleClass('nav-light nav-dark');
+        $('.bottom-dark-mode-container svg').toggleClass('icon-hide');
+
+        // icon
         $('.light-icon').toggleClass('icon-hide');
         $('.dark-icon').toggleClass('icon-hide');
+
+        // text
         $('.heading-1').toggleClass('text-light');
         $('.heading-2').toggleClass('text-light');
         $('.heading-3').toggleClass('text-light');
         $('.heading-4').toggleClass('text-light');
+
+        // nav
+        $('.nav-content').toggleClass('nav-light nav-dark');
         $('.nav-link div').toggleClass('nav-link-light nav-link-dark');
-        $('.nav-bars').toggleClass('nav-bars-icon nav-bars-icon-dark')
-        $('.project-item').toggleClass('border-dark');
+        $('.nav-bars').toggleClass('nav-bars-icon nav-bars-icon-dark');
+
+        // card
+        $('.card').toggleClass('card-dark');
+        $('.card-img-top').toggleClass('card-img-top-dark');
+        $('.card-title').toggleClass('card-title-dark');
+
+        // alert
+        $('.alert').toggleClass('alert-light alert-dark');
+        $('.alert-title').toggleClass('alert-title-dark');
+        $('.alert-icon').toggleClass('alert-icon-dark');
     });
 }
 
@@ -35,12 +52,27 @@ function navScroll() {
             $('.nav-container').css({
                 'top': '-100px',
                 'transition': '.4s ease'
-            })
+            });
+
+            $('.bottom-nav-container').css({
+                'bottom': '0',
+                'transition': '.4s ease'
+            });
+
+            $('.alert-container').removeClass('alert-active');
+
         } else {
             $('.nav-container').css({
                 'top': '0',
                 'transition': '.4s ease'
             });
+
+            $('.bottom-nav-container').css({
+                'bottom': '-100px',
+                'transition': '.4s ease'
+            });
+
+            $('.alert-container').removeClass('alert-active');
         }
         lastScrollTop = st;
     });
@@ -61,7 +93,7 @@ function bottomNav() {
 
 function project() {
     let data = [
-        ['Karens House Front End', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil consectetur.', 'https://ariwiradana.github.io/karenshouseubud/'],
+        ['Web Front End Developer', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil consectetur.', 'https://ariwiradana.github.io/karenshouseubud/'],
         ['UI/UX Designer', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil consectetur.'],
         ['Music Producer', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil consectetur.'],
     ];
@@ -69,30 +101,29 @@ function project() {
     $.each(data, function (i, obj) {
         $('.project-content').append(`
             <div class="card project-item" data-aos="fade-right" data-aos-duration="1000">
-                <div class="project-img-container">
-                    <a href="${obj[2]}" target="_blank">
-                        <div class="project-visit" id="active-${i + 1}">Visit</div>
-                    </a>
-                    <div class="project-overlay">
-                        <button class="btn-circle btn-primary btn-project" id="btn-project-${i}" data-id="${i + 1}"><i class="uil uil-plus"></i></button>
+                <div class="card-img-top">
+                    <div class="card-img-overlay mr-1 mb-1">
+                        <button class="btn-circle btn-primary btn-project" id="btn-project-${i}" data-title="${obj[0]}" data-link="${obj[2]}"><i class="uil uil-angle-right"></i></button>
                     </div>
-                    <img class="project-img" src="https://picsum.photos/400/800?random=${i + 1}" alt="">
+                    <img class="card-img" src="https://source.unsplash.com/random?sig=${i + 1}" alt="">
                 </div>
-                <div class="project-text-container" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
-                    <div class="heading-4 project-title">${obj[0]}</div>
+                <div class="card-body" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
+                    <div class="card-title">${obj[0]}</div>
                     <p class="body-text">${obj[1]}</p>
                 </div>
             </div>
         `);
+
+        $('.btn-project').click(function () {
+            let title = $(this).data("title");
+            let link = $(this).data("link");
+
+            $('.alert-container').toggleClass('alert-active');
+            $('.alert-link').attr('href', link);
+            $('.alert-title').text(title);
+        });
     })
 
-    $('.btn-project').click(function () {
-        let id = $(this).data("id");
-        $(`#active-${id}`).toggleClass('project-visit-active');
 
-        setTimeout(function () {
-            $('.project-img-container div').removeClass('project-visit-active');
-        }, 5000);
-    });
 
 }
